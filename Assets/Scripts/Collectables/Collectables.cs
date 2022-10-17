@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Collectables : MonoBehaviour
 {
-    public ScriptableObjects goldSO;
+    public ScriptableObjects CollectablesScrObj;
 
 	private void Awake()
 	{
-		gameObject.GetComponent<MeshRenderer>().material.color = goldSO.color;
+		gameObject.GetComponent<MeshRenderer>().material.color = CollectablesScrObj.color;
 		
 	}
 }
