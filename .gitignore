@@ -48,12 +48,10 @@ ExportedObj/
 *.pdb.meta
 *.mdb.meta
 *.meta
-*.mat
-*.asset
 *.json
 *.config
-*.prefab
 *.unity
+*.asset
 *.pdf
 *.png
 *asmdef
