@@ -1,11 +1,12 @@
 using UnityEngine;
 
-public class FindPlayer : MonoBehaviour
-{
-    void Start()
+    public class FindPlayer : MonoBehaviour
     {
-        this.GetComponent<Cinemachine.CinemachineVirtualCamera>().Follow = FindObjectOfType<PlayerController>().gameObject.transform;
-        this.GetComponent<Cinemachine.CinemachineVirtualCamera>().LookAt = FindObjectOfType<PlayerController>().gameObject.transform;
+        void Start()
+        {
+            this.GetComponent<Cinemachine.CinemachineVirtualCamera>().Follow = FindObjectOfType<PlayerMovement>().gameObject.transform;
+            this.GetComponent<Cinemachine.CinemachineVirtualCamera>().LookAt = FindObjectOfType<PlayerMovement>().gameObject.transform;
+        }
+
     }
 
-}
