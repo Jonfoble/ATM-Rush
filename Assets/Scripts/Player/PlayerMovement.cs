@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
 	private EndOfPathInstruction _end;
 	private float _dstTravelled;
 	#endregion
+	
 	#region Properties
 	public GameObject player { get => _player; set => _player = value; }
 	public float speed { get => _speed; set => _speed = value; }
