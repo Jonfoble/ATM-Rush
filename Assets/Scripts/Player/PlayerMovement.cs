@@ -9,10 +9,6 @@ public class PlayerMovement : MonoBehaviour
 	[SerializeField] private PathCreator _pathCreator;
 	private EndOfPathInstruction _end;
 	private float _dstTravelled;
-	/*private float _inputHorizontal;
-	private float _horizontalOffSet;
-	private Vector3 _screenPosition;
-	private Vector3 _worldPosition;*/
 	#endregion
 	#region Properties
 	public GameObject player { get => _player; set => _player = value; }
@@ -24,12 +20,10 @@ public class PlayerMovement : MonoBehaviour
 
 	private void OnEnable()
 	{
-		//GameManager.OnGameRunning += GetMouseInput;
 		GameManager.OnGameRunning += Move;
 	}
 	private void OnDisable()
 	{
-		//GameManager.OnGameRunning -= GetMouseInput;
 		GameManager.OnGameRunning -= Move;
 	}
 	public void Move()
