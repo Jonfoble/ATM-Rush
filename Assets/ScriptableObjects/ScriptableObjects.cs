@@ -7,7 +7,6 @@ using UnityEngine;
 public class ScriptableObjects : ScriptableObject
 {
 	public string collectableName;
-	public Color color;
 	public int spawnRate;
 	public int value;
 }
