@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -12,13 +13,24 @@ public class GameManager : Singleton<GameManager>
 
     [Header("GAME END\n")]
 	public static UnityAction OnGameEnd;
-	#endregion
-	private void Start()
-	{
-		OnGameStart?.Invoke(); //Invoking The Inception of the Game.
-	}
+
+    public static bool isGameRunning;
+
 	private void Update()
 	{
-		OnGameRunning?.Invoke(); // Invoking The GamePlay.
+		if (isGameRunning)
+		{
+			OnGameRunning?.Invoke();
+		}
 	}
+	#endregion
+	public void LoadNextLevel()
+    {
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        RestartLevel();
+    }
+    public void RestartLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 }

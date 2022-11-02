@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class MoneyManager : Singleton<MoneyManager>
 {
-    //THIS SECTION IS STILL NOT FINISHED!
-
     public int CurrentMultiplier { set => currentMultiplier = value; }
 
     private int totalAmount, currentMultiplier;
@@ -14,6 +12,9 @@ public class MoneyManager : Singleton<MoneyManager>
     private void Start()
     {
         GameManager.OnGameEnd += SaveTheAmount;
+
+        totalAmount = PlayerPrefs.GetInt("TOTAL_MONEY", 0);
+        CanvasController.Instance.UpdateTotalMoneyText(totalAmount);
     }
 
     public void Deposit(int itemLevel)// atm
@@ -25,6 +26,7 @@ public class MoneyManager : Singleton<MoneyManager>
     {
         totalAmount += CollectableManager.Instance.CurrentStackValue * currentMultiplier;
         PlayerPrefs.SetInt("TOTAL_MONEY", totalAmount);
+        CanvasController.Instance.UpdateTotalMoneyText(totalAmount);
     }
 
     private void OnDestroy()

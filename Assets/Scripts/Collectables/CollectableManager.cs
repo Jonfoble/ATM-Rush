@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class CollectableManager : Singleton<CollectableManager>
 {
-    //THIS SECTION IS STILL NOT FINISHED!
-
     #region Private Variables
     [SerializeField] private Transform stackRoot;
     [SerializeField] private List<Transform> spreadPoints;
@@ -29,7 +27,7 @@ public class CollectableManager : Singleton<CollectableManager>
         {
             item.SetTarget(items[ItemCount - 1].transform, itemDeltaPosZ);
         }
-        else// first item to add
+        else// Appending the first item
         {
             item.SetTarget(stackRoot, itemDeltaPosZ);
         }
@@ -40,7 +38,7 @@ public class CollectableManager : Singleton<CollectableManager>
         if (!animationPerforming)
         {
             animationPerforming = true;
-            StartCoroutine(PerformCollectAnim());
+            StartCoroutine(CollectAnim());
         }
     }
 
@@ -48,7 +46,7 @@ public class CollectableManager : Singleton<CollectableManager>
     {
         int collisionIndex = items.IndexOf(collisionItem);
 
-        if (collisionIndex == ItemCount - 1)// Collision of the last item with an obstacle
+        if (collisionIndex == ItemCount - 1)// Fucking collision of the last item with an obstacle
         {
             currentStackValue -= collisionItem.Level;
             items.RemoveAt(ItemCount - 1);
@@ -79,7 +77,7 @@ public class CollectableManager : Singleton<CollectableManager>
 	#endregion
 
 	#region Coroutines
-	private IEnumerator PerformCollectAnim()
+	private IEnumerator CollectAnim()
     {
         for (int i = ItemCount - 1; i >= 0; i--)
         {
@@ -92,7 +90,6 @@ public class CollectableManager : Singleton<CollectableManager>
 
             yield return new WaitForSeconds(0.05f);
         }
-
         animationPerforming = false;
     }
 	#endregion

@@ -37,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
 			Vector3 road = _pathCreator.path.GetPointAtDistance(dstTravelled, end);
 			if (GetInput.inputHorizontal == 0)
 			{
-				GetInput.horizontalOffSet = Mathf.MoveTowards(GetInput.horizontalOffSet, 0, Time.deltaTime * speed);
+				//If no input, dont Move. Otherwise move according to input.
 			}
 			else
 			{

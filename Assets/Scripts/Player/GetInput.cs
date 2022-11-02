@@ -22,11 +22,11 @@ public class GetInput : MonoBehaviour
 		screenPosition = Input.mousePosition;
 		screenPosition.z = Camera.main.nearClipPlane + 1;
 		worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
-		if (worldPosition.x > player.transform.position.x)
+		if (worldPosition.x > player.transform.position.x + 0.1f)
 		{
 			inputHorizontal = 1f;
 		}
-		else if (worldPosition.x < player.transform.position.x)
+		else if (worldPosition.x < player.transform.position.x - 0.1f)
 		{
 			inputHorizontal = -1f;
 		}
@@ -34,5 +34,25 @@ public class GetInput : MonoBehaviour
 		{
 			inputHorizontal = 0f;
 		}
+	}
+	public static int findDigits(int n)
+	{
+		int result = 0;
+		List<int> a = new List<int>();
+		n = 124;
+
+		foreach (var item in n.ToString())
+		{
+			a.Add(item);
+		}
+		for (int i = 0; i < a.Count; i++)
+		{
+			if (a[i] % n != 0 && n != 0)
+			{
+				result++;
+			}
+		}
+
+		return result;
 	}
 }
