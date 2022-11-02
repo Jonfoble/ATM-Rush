@@ -35,24 +35,4 @@ public class GetInput : MonoBehaviour
 			inputHorizontal = 0f;
 		}
 	}
-	public static int findDigits(int n)
-	{
-		int result = 0;
-		List<int> a = new List<int>();
-		n = 124;
-
-		foreach (var item in n.ToString())
-		{
-			a.Add(item);
-		}
-		for (int i = 0; i < a.Count; i++)
-		{
-			if (a[i] % n != 0 && n != 0)
-			{
-				result++;
-			}
-		}
-
-		return result;
-	}
 }
