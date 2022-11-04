@@ -1,4 +1,5 @@
 using UnityEngine;
+using DG.Tweening;
 using PathCreation;
 
 public class PlayerMovement : MonoBehaviour
@@ -10,14 +11,16 @@ public class PlayerMovement : MonoBehaviour
 	private EndOfPathInstruction _end;
 	private float _dstTravelled;
 	#endregion
-	
+
 	#region Properties
 	public GameObject player { get => _player; set => _player = value; }
 	public float speed { get => _speed; set => _speed = value; }
 	public float dstTravelled { get => _dstTravelled; set => _dstTravelled = value; }
-	public EndOfPathInstruction end { get => _end; }
+	public EndOfPathInstruction end { get => _end; set => _end = value; }
 	public float DstTravelled { get => _dstTravelled; set => _dstTravelled = value; }
 	#endregion
+
+	
 
 	private void OnEnable()
 	{
@@ -34,14 +37,22 @@ public class PlayerMovement : MonoBehaviour
 		if (_pathCreator != null)
 		{
 			dstTravelled += speed * Time.deltaTime;
-			Vector3 road = _pathCreator.path.GetPointAtDistance(dstTravelled, end);
+			Vector3 road = _pathCreator.path.GetPointAtDistance(dstTravelled, end = EndOfPathInstruction.Stop);
+			Vector3 lastPoint = _pathCreator.path.GetPoint(_pathCreator.path.localPoints.Length - 1);
 			if (GetInput.inputHorizontal == 0)
 			{
 				//If no input, dont Move. Otherwise move according to input.
 			}
 			else
 			{
-				GetInput.horizontalOffSet += GetInput.inputHorizontal * Time.deltaTime * speed;
+				if (lastPoint != road) // Stop moving if reached out to end
+				{
+					GetInput.horizontalOffSet += GetInput.inputHorizontal * Time.deltaTime * speed;
+				}
+			}
+			if (lastPoint == road)
+			{
+				this.transform.DOMove(lastPoint, 0.7f);
 			}
 			transform.position = road;
 			GetInput.horizontalOffSet = Mathf.Clamp(GetInput.horizontalOffSet, -2.5f, 3f);

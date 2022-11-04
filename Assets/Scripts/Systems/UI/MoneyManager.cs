@@ -1,18 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MoneyManager : Singleton<MoneyManager>
 {
     public int CurrentMultiplier { set => currentMultiplier = value; }
-
     private int totalAmount, currentMultiplier;
 
-
-    private void Start()
-    {
+	private void OnEnable()
+	{
         GameManager.OnGameEnd += SaveTheAmount;
+    }
+	private void OnDisable()
+	{
+        GameManager.OnGameEnd -= SaveTheAmount;
+    }
 
+	private void Start()
+    {
         totalAmount = PlayerPrefs.GetInt("TOTAL_MONEY", 0);
         CanvasController.Instance.UpdateTotalMoneyText(totalAmount);
     }
@@ -27,10 +30,5 @@ public class MoneyManager : Singleton<MoneyManager>
         totalAmount += CollectableManager.Instance.CurrentStackValue * currentMultiplier;
         PlayerPrefs.SetInt("TOTAL_MONEY", totalAmount);
         CanvasController.Instance.UpdateTotalMoneyText(totalAmount);
-    }
-
-    private void OnDestroy()
-    {
-        GameManager.OnGameEnd -= SaveTheAmount;
     }
 }

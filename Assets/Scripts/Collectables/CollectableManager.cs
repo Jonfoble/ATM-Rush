@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,8 +9,9 @@ public class CollectableManager : Singleton<CollectableManager>
     #region Private Variables
     [SerializeField] private Transform stackRoot;
     [SerializeField] private List<Transform> spreadPoints;
-    private List<Collectables> items = new List<Collectables>();
     [SerializeField] private float itemDeltaPosZ = 1.25f;
+    [SerializeField] private GameObject _destroyEffect;
+    private List<Collectables> items = new List<Collectables>();
     private int currentStackValue = 0;
     private bool animationPerforming = false;
 	#endregion
@@ -42,6 +44,18 @@ public class CollectableManager : Singleton<CollectableManager>
         }
     }
 
+    public void DestroyDepositItem(Collectables collisionItem)
+	{
+        int collisionIndex = items.IndexOf(collisionItem);
+
+        if (collisionIndex == ItemCount - 1)// Fucking collision of the last item with an atm
+        {
+            currentStackValue -= collisionItem.Level;
+            items.RemoveAt(ItemCount - 1);
+            collisionItem.transform.DOScale(0f, 0.2f);
+            Destroy(collisionItem.GetComponent<BoxCollider>());
+        }
+    }
     public void DestroyItem(Collectables collisionItem)
     {
         int collisionIndex = items.IndexOf(collisionItem);
@@ -50,16 +64,24 @@ public class CollectableManager : Singleton<CollectableManager>
         {
             currentStackValue -= collisionItem.Level;
             items.RemoveAt(ItemCount - 1);
+            PerformDestroyAnimation(collisionItem.transform.position);
             Destroy(collisionItem.gameObject);
         }
         else //collision
         {
+            PerformDestroyAnimation(collisionItem.transform.position);
             for (int i = collisionIndex; i < ItemCount; i++)
             {
-                items[i].Throw(spreadPoints[i].position);
-                currentStackValue -= items[i].Level;
+				try 
+                {
+                    items[i].Throw(spreadPoints[i].position);
+                    currentStackValue -= items[i].Level;
+                }
+                catch (ArgumentOutOfRangeException)
+				{
+                    print("Index Was Out Of Range");
+				}
             }
-
             items.RemoveRange(collisionIndex, ItemCount - collisionIndex);
         }
     }
@@ -67,13 +89,19 @@ public class CollectableManager : Singleton<CollectableManager>
     public void DepositItem(Collectables depositItem)
     {
         MoneyManager.Instance.Deposit(depositItem.Level);
-        DestroyItem(depositItem);
+        DestroyDepositItem(depositItem);
     }
 
     public void UpdateStackValue()
     {
         currentStackValue++;
     }
+
+    public void PerformDestroyAnimation(Vector3 transform)
+	{
+        GameObject Effect = Instantiate(_destroyEffect, transform, Quaternion.identity);
+        Destroy(Effect, 2f);
+	}
 	#endregion
 
 	#region Coroutines
@@ -85,9 +113,10 @@ public class CollectableManager : Singleton<CollectableManager>
             {
                 break;
             }
-
-            items[i].transform.DOPunchScale(Vector3.one, 0.2f, 2, 1f);
-
+			else
+			{
+                items[i].transform.DOPunchScale(Vector3.one, 0.2f, 2, 1f);
+            }
             yield return new WaitForSeconds(0.05f);
         }
         animationPerforming = false;

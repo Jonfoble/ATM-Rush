@@ -1,15 +1,16 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class CanvasController : Singleton<CanvasController>
 {
-    [SerializeField] private GameObject panelMenu, panelInGame, panelEndGame;
+	#region Private Variables
+	[SerializeField] private GameObject panelMenu, panelInGame, panelEndGame;
     [SerializeField] private MoneyIndicator moneyIndicator;
     [SerializeField] private TextMeshProUGUI textTotalMoney;
+	#endregion
 
-    private void OnEnable()
+	private void OnEnable()
     {
         GameManager.OnGameStart += SetInGameUi;
         GameManager.OnGameRunning += SetGameUi;

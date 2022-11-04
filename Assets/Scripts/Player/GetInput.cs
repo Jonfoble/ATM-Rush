@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class GetInput : MonoBehaviour
 {
+	#region Public Variables
 	[HideInInspector]public GameObject player;
 	[HideInInspector]public Vector3 screenPosition;
 	[HideInInspector]public Vector3 worldPosition;
 	public static float inputHorizontal;
 	public static float horizontalOffSet;
+	#endregion
 	private void OnEnable()
 	{
 		GameManager.OnGameRunning += GettingMouseInput;

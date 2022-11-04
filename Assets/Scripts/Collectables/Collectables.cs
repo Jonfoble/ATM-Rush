@@ -7,8 +7,7 @@ public class Collectables : MonoBehaviour
 {
 	#region Private Variables
 	[SerializeField] private BoxCollider _collider;
-	[SerializeField] private List<GameObject> _CollectableObjects;
-	private ScriptableObjects _collectablesSO;
+	[SerializeField] private List<GameObject> _collectableObjects;
 	private Transform _followTarget;
 	private float _deltaPosZ;
 	private int _level = 0;
@@ -20,6 +19,11 @@ public class Collectables : MonoBehaviour
 	#endregion
 
 	private void Update()
+	{
+		InGameAction();
+	}
+	#region Functions
+	private void InGameAction()
 	{
 		if (_followTarget == null || !inStack) return;
 
@@ -56,12 +60,14 @@ public class Collectables : MonoBehaviour
 	}
 	private IEnumerator ThrowRoutine(Vector3 position)
 	{
-		inStack = false;
-		transform.DOMove(position, 0.26f).SetEase(Ease.OutBounce);
-		_collider.enabled = false;
-
+		if (inStack)
+		{
+			transform.DOMove(position, 0.26f).SetEase(Ease.OutBounce);
+			_collider.enabled = false;
+		}
 		yield return new WaitForSeconds(0.25f);
 
+		inStack = false;
 		isCollected = false;
 		_collider.enabled = true;
 	}
@@ -70,14 +76,18 @@ public class Collectables : MonoBehaviour
 		if (_level != 2)
 		{
 			_level++;
-			gameObject.GetComponentInChildren<MeshFilter>().sharedMesh = _CollectableObjects[_level].GetComponentInChildren<MeshFilter>().sharedMesh;
-			gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterials = _CollectableObjects[_level].GetComponentInChildren<MeshRenderer>().sharedMaterials;
+			gameObject.GetComponentInChildren<MeshFilter>().sharedMesh = _collectableObjects[_level].GetComponentInChildren<MeshFilter>().sharedMesh;
+			gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterials = _collectableObjects[_level].GetComponentInChildren<MeshRenderer>().sharedMaterials;
+			this.transform.DOPunchScale(Vector3.one, 0.2f, 2, 1f);
 		}
 	}
 	private void GoToLastAtm()
 	{
 		transform.DOLocalMoveX(-15f, 2f);
 	}
+	#endregion
+
+	#region OnTrigger
 	private void OnTriggerEnter(Collider other)
 	{
 		if (!isCollected && !inStack && !enteredAtmLine)
@@ -103,7 +113,7 @@ public class Collectables : MonoBehaviour
 			{
 				if (enteredAtmLine)
 				{
-					Destroy(gameObject);
+					this.gameObject.transform.DOScale(0f, 0.2f);
 					return;
 				}
 				CollectableManager.Instance.DepositItem(this);
@@ -114,4 +124,5 @@ public class Collectables : MonoBehaviour
 			}
 		}
 	}
+	#endregion
 }

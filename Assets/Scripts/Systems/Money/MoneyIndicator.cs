@@ -4,11 +4,12 @@ using UnityEngine.UI;
 
 public class MoneyIndicator : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI textMoney;
+	#region Private Variables
+	[SerializeField] private TextMeshProUGUI textMoney;
     private Vector3 newPos;
+	#endregion
 
-
-    private void LateUpdate()
+	private void LateUpdate()
     {
         SetCoinText();
     }
