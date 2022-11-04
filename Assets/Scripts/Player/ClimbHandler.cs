@@ -13,7 +13,13 @@ public class ClimbHandler : MonoBehaviour
 			_car.SetActive(false);
 			StartCoroutine(TurnCoroutine());
 		}
+		else
+		{
+			StopAllCoroutines();
+		}
 	}
+
+	#region Coroutines
 	private IEnumerator TurnCoroutine()
 	{
 		yield return new WaitForSeconds(2f);
@@ -26,6 +32,11 @@ public class ClimbHandler : MonoBehaviour
 	{
 
 		yield return new WaitForSeconds(.5f);
-		this.transform.DOLocalMoveY(CollectableManager.Instance.CurrentStackValue, 5f);	
+		this.transform.DOLocalMoveY(CollectableManager.Instance.CurrentStackValue, 5f);
+		yield return new WaitForSeconds(7f);
+		GameManager.OnGameEnd?.Invoke();
+		PlayerMovement.isRunning = true;
 	}
+	#endregion
+
 }
