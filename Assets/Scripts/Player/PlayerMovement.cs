@@ -59,6 +59,7 @@ public class PlayerMovement : MonoBehaviour
 			{
 				isRunning = false;
 				this.transform.DOMove(lastPoint, 0.7f);
+				this.enabled = false;
 			}
 			transform.position = road;
 			GetInput.horizontalOffSet = Mathf.Clamp(GetInput.horizontalOffSet, -2.5f, 3f);
