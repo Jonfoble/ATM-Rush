@@ -12,6 +12,11 @@ public class PlayerMovement : MonoBehaviour
 	private float _dstTravelled;
 	#endregion
 
+	#region Public Variables
+
+	public static bool isRunning = true;
+	#endregion
+
 	#region Properties
 	public GameObject player { get => _player; set => _player = value; }
 	public float speed { get => _speed; set => _speed = value; }
@@ -52,6 +57,7 @@ public class PlayerMovement : MonoBehaviour
 			}
 			if (lastPoint == road)
 			{
+				isRunning = false;
 				this.transform.DOMove(lastPoint, 0.7f);
 			}
 			transform.position = road;
