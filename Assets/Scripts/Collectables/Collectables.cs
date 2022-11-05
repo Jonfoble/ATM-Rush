@@ -104,6 +104,10 @@ public class Collectables : MonoBehaviour
 			{
 				CollectableManager.Instance.DestroyItem(this);
 			}
+			else if (other.CompareTag("CreditCard"))
+			{
+				CollectableManager.Instance.DestroyItem(this);
+			}
 			else if (other.CompareTag("Gate"))
 			{
 				Improve();
