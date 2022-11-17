@@ -11,6 +11,6 @@ public class CreditCardMovement : MonoBehaviour
 
 	public void MoveCreditCard()
 	{
-		_card.transform.DOMoveX(3f, 6f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
+		_card.transform.DOMoveX(3f, 4f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
 	}
 }

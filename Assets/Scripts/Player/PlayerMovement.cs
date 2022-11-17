@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
 	#region Private Variables
 	[SerializeField] private GameObject _player;
 	[SerializeField] private float _speed;
+	[SerializeField] private float _horizontalSpeed;
 	[SerializeField] private PathCreator _pathCreator;
 	private EndOfPathInstruction _end;
 	private float _dstTravelled;
@@ -18,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
 	#endregion
 
 	#region Properties
+	public float horizontalSpeed { get => _horizontalSpeed; set => _horizontalSpeed = value; }
 	public GameObject player { get => _player; set => _player = value; }
 	public float speed { get => _speed; set => _speed = value; }
 	public float dstTravelled { get => _dstTravelled; set => _dstTravelled = value; }
@@ -52,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
 			{
 				if (lastPoint != road) // Stop moving if reached out to end
 				{
-					GetInput.horizontalOffSet += GetInput.inputHorizontal * Time.deltaTime * speed;
+					GetInput.horizontalOffSet += GetInput.inputHorizontal * Time.deltaTime * horizontalSpeed;
 				}
 			}
 			if (lastPoint == road)

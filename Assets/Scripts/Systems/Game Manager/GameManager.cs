@@ -15,7 +15,7 @@ public class GameManager : Singleton<GameManager>
 	public static UnityAction OnGameEnd;
 
     public static bool isGameRunning;
-
+	#endregion
 	private void Update()
 	{
 		if (isGameRunning)
@@ -23,7 +23,6 @@ public class GameManager : Singleton<GameManager>
 			OnGameRunning?.Invoke();
 		}
 	}
-	#endregion
 	public void LoadNextLevel()
     {
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);

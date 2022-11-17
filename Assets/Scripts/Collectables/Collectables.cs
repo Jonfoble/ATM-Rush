@@ -40,7 +40,7 @@ public class Collectables : MonoBehaviour
 	private void Follow()
 	{
 		var targetPos = _followTarget.position + Vector3.forward * _deltaPosZ;
-		var targetPosX = Mathf.Lerp(transform.position.x, targetPos.x, 0.08f);
+		var targetPosX = Mathf.Lerp(transform.position.x, targetPos.x, 0.1f);
 		targetPos.x = targetPosX;
 		transform.position = targetPos;
 	}
