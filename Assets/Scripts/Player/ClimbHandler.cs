@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class ClimbHandler : MonoBehaviour
 {
-	[SerializeField]private GameObject _car;
+	[SerializeField] private GameObject _car;
+	[SerializeField] private GameObject _money;
+	private float currentMoneyHeight = 0;
+	private float currentPlayerHeight = 0;
 
 	private void Update()
 	{
@@ -30,13 +33,22 @@ public class ClimbHandler : MonoBehaviour
 	}
 	private IEnumerator ClimbCoroutine()
 	{
-
 		yield return new WaitForSeconds(.5f);
 		this.transform.DOLocalMoveY(CollectableManager.Instance.CurrentStackValue, 5f);
+		if (transform.position.y >= currentPlayerHeight + .3f)
+		{
+			SpawnM();
+			currentPlayerHeight = transform.position.y;
+		}
 		yield return new WaitForSeconds(7f);
 		GameManager.OnGameEnd?.Invoke();
 		PlayerMovement.isRunning = true;
 	}
+	public void SpawnM()
+	{
+		Vector3 spawnPoint = new Vector3(-0.46f, currentMoneyHeight, 120f);
+		Instantiate(_money, spawnPoint, _money.transform.rotation);
+		currentMoneyHeight += .36f;
+	}
 	#endregion
-
 }

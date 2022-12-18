@@ -37,15 +37,16 @@ namespace PathCreation {
         const float minVertexSpacing = .01f;
 
         Transform transform;
+		private BezierPath bezierPath;
 
-        #endregion
+		#endregion
 
-        #region Constructors
+		#region Constructors
 
-        /// <summary> Splits bezier path into array of vertices along the path.</summary>
-        ///<param name="maxAngleError">How much can the angle of the path change before a vertex is added. This allows fewer vertices to be generated in straighter sections.</param>
-        ///<param name="minVertexDst">Vertices won't be added closer together than this distance, regardless of angle error.</param>
-        public VertexPath (BezierPath bezierPath, Transform transform, float maxAngleError = 0.3f, float minVertexDst = 0):
+		/// <summary> Splits bezier path into array of vertices along the path.</summary>
+		///<param name="maxAngleError">How much can the angle of the path change before a vertex is added. This allows fewer vertices to be generated in straighter sections.</param>
+		///<param name="minVertexDst">Vertices won't be added closer together than this distance, regardless of angle error.</param>
+		public VertexPath (BezierPath bezierPath, Transform transform, float maxAngleError = 0.3f, float minVertexDst = 0):
             this (bezierPath, VertexPathUtility.SplitBezierPathByAngleError (bezierPath, maxAngleError, minVertexDst, VertexPath.accuracy), transform) { }
 
         /// <summary> Splits bezier path into array of vertices along the path.</summary>
@@ -149,11 +150,15 @@ namespace PathCreation {
             }
         }
 
-        #endregion
+		public VertexPath(BezierPath bezierPath)
+		{
+			this.bezierPath = bezierPath;
+		}
+		#endregion
 
-        #region Public methods and accessors
+		#region Public methods and accessors
 
-        public void UpdateTransform (Transform transform) {
+		public void UpdateTransform (Transform transform) {
             this.transform = transform;
         }
         public int NumPoints {
@@ -162,7 +167,9 @@ namespace PathCreation {
             }
         }
 
-        public Vector3 GetTangent (int index) {
+		public BezierPath BezierPath { get; }
+
+		public Vector3 GetTangent (int index) {
             return MathUtility.TransformDirection (localTangents[index], transform, space);
         }
 
